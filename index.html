@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0b1220" />
+  <title>Мозайка Тревел — турагент</title>
+  <meta name="description" content="Мозайка Тревел — подбор туров и путешествий. Быстро, честно, с заботой." />
+
+  <style>
+    :root{
+      --bg: #070b16;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.08);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.65);
+      --line: rgba(255,255,255,.14);
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+      --r: 18px;
+      --r2: 26px;
+      --max: 1120px;
+
+      --a: #6ee7ff;
+      --b: #a78bfa;
+      --c: #34d399;
+      --warn: #f59e0b;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(110,231,255,.22), transparent 55%),
+        radial-gradient(900px 600px at 90% 10%, rgba(167,139,250,.18), transparent 55%),
+        radial-gradient(900px 600px at 60% 110%, rgba(52,211,153,.14), transparent 55%),
+        linear-gradient(180deg, #060914 0%, #070b16 55%, #060914 100%);
+      overflow-x:hidden;
+    }
+
+    a{ color: inherit; text-decoration:none; }
+    .wrap{ max-width:var(--max); margin:0 auto; padding: 0 18px; }
+    .grid{ display:grid; gap:16px; }
+
+    /* Top nav */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(7,11,22,.72), rgba(7,11,22,.40));
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .topbar__in{
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 12px 0;
+    }
+
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width: 0;
+    }
+    .logo{
+      width:44px; height:44px; border-radius: 14px;
+      background:
+        linear-gradient(135deg, rgba(110,231,255,.95), rgba(167,139,250,.95));
+      box-shadow: 0 10px 26px rgba(0,0,0,.28);
+      position:relative;
+      overflow:hidden;
+      flex: 0 0 auto;
+    }
+    .logo:before{
+      content:"";
+      position:absolute; inset:-24px;
+      background:
+        conic-gradient(from 190deg,
+          rgba(255,255,255,.0) 0 8%,
+          rgba(255,255,255,.28) 10% 16%,
+          rgba(255,255,255,.0) 18% 100%);
+      animation: shine 4.8s linear infinite;
+    }
+    @keyframes shine{ to{ transform: rotate(360deg);} }
+
+    .brand__text{ min-width:0; }
+    .brand__name{
+      font-weight: 800;
+      letter-spacing: .2px;
+      line-height: 1.05;
+      font-size: 16px;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .brand__tag{
+      font-size: 12px; color: var(--muted);
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+
+    .nav{
+      display:flex; align-items:center; gap: 10px;
+    }
+    .nav a{
+      font-size: 14px;
+      color: var(--muted);
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      transition: .18s ease;
+    }
+    .nav a:hover{
+      color: var(--text);
+      border-color: rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+    }
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      border-radius: 14px;
+      padding: 11px 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      transition: transform .12s ease, background .18s ease, border-color .18s ease;
+      cursor:pointer;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{ background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.22); }
+    .btn:active{ transform: translateY(1px); }
+
+    .btn--primary{
+      border-color: rgba(110,231,255,.35);
+      background: linear-gradient(135deg, rgba(110,231,255,.18), rgba(167,139,250,.14));
+    }
+    .btn--primary:hover{
+      border-color: rgba(110,231,255,.55);
+      background: linear-gradient(135deg, rgba(110,231,255,.24), rgba(167,139,250,.18));
+    }
+
+    .burger{
+      display:none;
+      width:44px; height:44px;
+      border-radius: 14px;
+    }
+
+    /* Hero */
+    .hero{
+      padding: 34px 0 18px;
+    }
+    .hero__in{
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .card{
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+      border-radius: var(--r2);
+      box-shadow: var(--shadow);
+    }
+
+    .hero__main{
+      padding: 22px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero__main:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(500px 260px at 12% 24%, rgba(110,231,255,.22), transparent 60%),
+        radial-gradient(520px 260px at 78% 20%, rgba(167,139,250,.18), transparent 60%),
+        radial-gradient(520px 260px at 68% 92%, rgba(52,211,153,.14), transparent 60%);
+      pointer-events:none;
+      filter:saturate(1.05);
+    }
+    .hero__main > *{ position:relative; }
+
+    .kicker{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .dot{
+      width:8px; height:8px; border-radius:999px;
+      background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.2));
+      box-shadow: 0 0 0 4px rgba(110,231,255,.12);
+    }
+
+    h1{
+      margin: 14px 0 10px;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.04;
+      letter-spacing: -0.6px;
+    }
+    .lead{
+      margin:0 0 16px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.5;
+      max-width: 60ch;
+    }
+
+    .hero__actions{
+      display:flex; flex-wrap:wrap;
+      gap:10px;
+      margin-top: 12px;
+    }
+
+    .hero__aside{
+      padding: 18px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap: 14px;
+    }
+
+    .aside__title{
+      font-weight: 750;
+      letter-spacing: .2px;
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+    .aside__list{
+      display:grid; gap:10px;
+      margin:0; padding:0;
+      list-style:none;
+    }
+    .aside__item{
+      display:flex; gap:10px; align-items:flex-start;
+      padding: 12px;
+      border-radius: var(--r);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+    }
+    .badge{
+      width:34px; height:34px; border-radius: 12px;
+      display:grid; place-items:center;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      flex: 0 0 auto;
+    }
+    .aside__item b{ display:block; font-size: 13px; }
+    .aside__item span{ display:block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* Sections */
+    section{ padding: 22px 0; }
+    .section__head{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .section__title{
+      margin:0;
+      font-size: 18px;
+      letter-spacing: -.2px;
+    }
+    .section__note{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* Tourvisor */
+    .search-card{
+      padding: 16px;
+    }
+    .search-card__inner{
+      border-radius: var(--r2);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.12);
+      padding: 12px;
+      overflow:hidden;
+    }
+    .search-hint{
+      display:flex; gap:10px; align-items:flex-start;
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      border-radius: 999px;
+      padding: 7px 10px;
+      border: 1px dashed rgba(255,255,255,.18);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.72);
+      font-size: 12px;
+      user-select:text;
+    }
+
+    /* Contacts */
+    .contacts{
+      grid-template-columns: 1fr 1fr;
+      align-items:stretch;
+    }
+    .contact-card{
+      padding: 16px;
+      display:flex; flex-direction:column; gap: 12px;
+    }
+    .contact-row{
+      display:flex; flex-wrap:wrap; gap:10px;
+    }
+    .contact-meta{
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      margin:0;
+    }
+    .mini{
+      font-size:12px; color: var(--muted);
+      margin:0;
+    }
+
+    /* Footer */
+    footer{
+      padding: 22px 0 28px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .footer__in{
+      display:flex; flex-wrap:wrap;
+      align-items:center; justify-content:space-between;
+      gap: 10px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      padding-top: 18px;
+    }
+
+    /* Toast */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.55);
+      border: 1px solid rgba(255,255,255,.14);
+      color: rgba(255,255,255,.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 16px 50px rgba(0,0,0,.45);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .18s ease, transform .18s ease;
+      font-size: 13px;
+      z-index: 100;
+      max-width: calc(100vw - 24px);
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+    }
+    .toast.show{
+      opacity:1;
+      transform: translateX(-50%) translateY(-2px);
+    }
+
+    /* Mobile */
+    @media (max-width: 920px){
+      .hero__in{ grid-template-columns: 1fr; }
+      .contacts{ grid-template-columns: 1fr; }
+      .nav{ display:none; }
+      .burger{ display:inline-flex; }
+      .nav.mobile{
+        display:flex;
+        position: absolute;
+        right: 18px;
+        top: 64px;
+        flex-direction: column;
+        gap: 6px;
+        padding: 10px;
+        border-radius: 18px;
+        background: rgba(10,14,26,.92);
+        border: 1px solid rgba(255,255,255,.12);
+        box-shadow: var(--shadow);
+        min-width: 200px;
+      }
+      .topbar{ position:sticky; }
+    }
+
+    /* Simple icons */
+    .ico{ width:18px; height:18px; display:inline-block; }
+    .ico svg{ width:18px; height:18px; display:block; }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="wrap topbar__in">
+      <a class="brand" href="#top" aria-label="На главную">
+        <div class="logo" aria-hidden="true"></div>
+        <div class="brand__text">
+          <div class="brand__name">Мозайка Тревел</div>
+          <div class="brand__tag">Подбор туров • Перелёты • Отели • Страховка</div>
+        </div>
+      </a>
+
+      <nav class="nav" id="nav">
+        <a href="#search">Поиск туров</a>
+        <a href="#contacts">Контакты</a>
+        <a href="#about">Обо мне</a>
+      </nav>
+
+      <button class="btn burger" id="burger" aria-label="Меню">
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <main id="top" class="wrap">
+    <!-- HERO -->
+    <header class="hero">
+      <div class="hero__in">
+        <div class="card hero__main">
+          <div class="kicker">
+            <span class="dot" aria-hidden="true"></span>
+            Индивидуальный подбор путешествий
+          </div>
+
+          <h1>Туры “под ключ” — быстро, спокойно, без лишней суеты</h1>
+          <p class="lead">
+            Подберу лучшие варианты по вашим датам и бюджету: море, экскурсии, горящие предложения,
+            семейный отдых, свадебные путешествия. Сопровождение до вылета и на отдыхе.
+          </p>
+
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#search">
+              <span class="ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M10.5 4.5h9M15 4.5v9M4 19.5l10.5-10.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
+              Подобрать тур
+            </a>
+
+            <a class="btn" href="#contacts">
+              <span class="ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M21 15.5a4 4 0 0 1-4 4h-1.2a2 2 0 0 1-1.7-.95l-.55-.9a2 2 0 0 0-1.7-.95H7a4 4 0 0 1-4-4V8.5a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v7Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                  <path d="M7.5 9.5h9M7.5 12.5h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
+              Написать мне
+            </a>
+
+            <button class="btn" id="copyPhoneBtn" type="button" title="Скопировать телефон">
+              <span class="ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M8 7a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2V7Z" stroke="currentColor" stroke-width="2"/>
+                  <path d="M6 17H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
+              Скопировать номер
+            </button>
+          </div>
+        </div>
+
+        <aside class="card hero__aside" id="about">
+          <div>
+            <p class="aside__title">Что вы получаете</p>
+            <ul class="aside__list">
+              <li class="aside__item">
+                <span class="badge" aria-hidden="true">✦</span>
+                <div>
+                  <b>Подбор в 2–3 вариантах</b>
+                  <span>Сравнение по цене/качеству, честные комментарии.</span>
+                </div>
+              </li>
+              <li class="aside__item">
+                <span class="badge" aria-hidden="true">✓</span>
+                <div>
+                  <b>Проверка деталей</b>
+                  <span>Перелёты, питание, страховка, условия отеля, нюансы.</span>
+                </div>
+              </li>
+              <li class="aside__item">
+                <span class="badge" aria-hidden="true">☼</span>
+                <div>
+                  <b>Сопровождение</b>
+                  <span>На связи до вылета и во время поездки.</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="pill" title="Подставьте реальные данные">
+            <span aria-hidden="true">📍</span> <span id="cityLabel">Город: (укажите)</span>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <!-- SEARCH -->
+    <section id="search">
+      <div class="section__head">
+        <h2 class="section__title">Поиск туров</h2>
+        <p class="section__note">Ищите по направлениям, датам, бюджету и фильтрам</p>
+      </div>
+
+      <div class="card search-card">
+        <div class="search-card__inner">
+          <!--
+            ✅ Tourvisor module embed.
+            1) Замените MODULE_ID ниже на ваш реальный (из личного кабинета Tourvisor).
+            2) Параметры tv-type / tv-theme / tv-ismobile — опционально.
+            Документация по параметрам: support.tourvisor.ru (см. "Параметры для разработчиков").
+          -->
+
+          <!-- ВАЖНО: замените 1000001 на ваш moduleid -->
+          <div
+            class="tv-search-form tv-moduleid-1000001"
+            tv-ismobile="2"
+            tv-theme="theme2"
+            tv-type="6"
+            tv-width="auto"
+            tv-resultwidth="auto"
+          ></div>
+
+          <script type="text/javascript" src="//tourvisor.ru/module/init.js"></script>
+        </div>
+
+        <div class="search-hint">
+          <span aria-hidden="true">ℹ️</span>
+          <div>
+            Если модуль не отображается — проверьте, что <b>tv-moduleid</b> заменён на ваш реальный ID,
+            и что у аккаунта Tourvisor активен модуль.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTS -->
+    <section id="contacts">
+      <div class="section__head">
+        <h2 class="section__title">Контакты</h2>
+        <p class="section__note">Ответ обычно в течение дня (иногда быстрее)</p>
+      </div>
+
+      <div class="grid contacts">
+        <div class="card contact-card">
+          <p class="aside__title" style="margin:0;">Связаться</p>
+          <p class="contact-meta">
+            Напишите, что именно нужно: <b>страна</b>, <b>даты</b>, <b>кол-во людей</b>, <b>бюджет</b> —
+            я предложу варианты и объясню разницу.
+          </p>
+
+          <div class="contact-row">
+            <!-- Замените ссылки на реальные -->
+            <a class="btn btn--primary" id="waBtn" href="https://wa.me/79990000000" target="_blank" rel="noopener">
+              <span aria-hidden="true">💬</span> WhatsApp
+            </a>
+            <a class="btn" id="tgBtn" href="https://t.me/username" target="_blank" rel="noopener">
+              <span aria-hidden="true">✈️</span> Telegram
+            </a>
+            <a class="btn" id="mailBtn" href="mailto:hello@example.com">
+              <span aria-hidden="true">✉️</span> Email
+            </a>
+          </div>
+
+          <p class="mini">
+            Телефон: <b id="phoneText">+7 (999) 000-00-00</b>
+            <span style="color:var(--muted)">•</span>
+            <a href="tel:+79990000000" class="mini" style="text-decoration:underline;">позвонить</a>
+          </p>
+        </div>
+
+        <div class="card contact-card">
+          <p class="aside__title" style="margin:0;">Быстрый запрос</p>
+
+          <form id="quickForm" class="grid" style="gap:10px;">
+            <div class="grid" style="grid-template-columns:1fr 1fr; gap:10px;">
+              <label class="grid" style="gap:6px;">
+                <span class="mini">Имя</span>
+                <input name="name" required placeholder="Например, Анна"
+                  style="padding:12px 12px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--text);outline:none;" />
+              </label>
+
+              <label class="grid" style="gap:6px;">
+                <span class="mini">Контакт</span>
+                <input name="contact" required placeholder="Телефон / WhatsApp / Telegram"
+                  style="padding:12px 12px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--text);outline:none;" />
+              </label>
+            </div>
+
+            <label class="grid" style="gap:6px;">
+              <span class="mini">Что ищем</span>
+              <input name="details" placeholder="Направление, даты, бюджет, состав"
+                style="padding:12px 12px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--text);outline:none;" />
+            </label>
+
+            <button class="btn btn--primary" type="submit">
+              <span aria-hidden="true">✅</span> Сформировать сообщение
+            </button>
+
+            <p class="mini" style="margin-top:2px;">
+              Форма не отправляет данные на сервер (GitHub Pages). Она просто сформирует текст и откроет WhatsApp/Telegram.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer__in">
+        <div>© <span id="year"></span> «Мозайка Тревел»</div>
+        <div class="mini">Сайт-визитка • GitHub Pages • one-file</div>
+      </div>
+    </footer>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // ====== Settings (замените под реальную визитку) ======
+    const CONTACTS = {
+      phonePretty: "+7 (999) 000-00-00",
+      phoneTel: "+79990000000",
+      whatsapp: "https://wa.me/79990000000",
+      telegram: "https://t.me/username",
+      email: "hello@example.com",
+      city: "Амстердам"
+    };
+
+    // ====== Helpers ======
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const toastEl = $("#toast");
+    let toastTimer = null;
+
+    function toast(msg){
+      toastEl.textContent = msg;
+      toastEl.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2200);
+    }
+
+    function smoothTo(hash){
+      const el = document.querySelector(hash);
+      if(!el) return;
+      el.scrollIntoView({behavior:"smooth", block:"start"});
+    }
+
+    // ====== Init ======
+    $("#year").textContent = new Date().getFullYear();
+
+    $("#phoneText").textContent = CONTACTS.phonePretty;
+    $("#cityLabel").textContent = "Город: " + CONTACTS.city;
+
+    $("#waBtn").href = CONTACTS.whatsapp;
+    $("#tgBtn").href = CONTACTS.telegram;
+    $("#mailBtn").href = "mailto:" + CONTACTS.email;
+
+    const telLink = document.querySelector('a[href^="tel:"]');
+    if(telLink) telLink.href = "tel:" + CONTACTS.phoneTel;
+
+    // ====== Menu ======
+    const burger = $("#burger");
+    const nav = $("#nav");
+
+    burger.addEventListener("click", () => {
+      const isMobileOpen = nav.classList.toggle("mobile");
+      if(isMobileOpen){
+        nav.style.display = "flex";
+      }else{
+        nav.style.display = "";
+      }
+    });
+
+    // Close mobile nav on link click
+    nav.addEventListener("click", (e) => {
+      const a = e.target.closest("a");
+      if(!a) return;
+      e.preventDefault();
+      const href = a.getAttribute("href");
+      if(href && href.startsWith("#")) smoothTo(href);
+      nav.classList.remove("mobile");
+      nav.style.display = "";
+    });
+
+    // Smooth scroll for any anchor
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest('a[href^="#"]');
+      if(!a) return;
+      const href = a.getAttribute("href");
+      if(!href || href === "#") return;
+      e.preventDefault();
+      smoothTo(href);
+    });
+
+    // Copy phone
+    $("#copyPhoneBtn").addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(CONTACTS.phoneTel);
+        toast("Номер скопирован: " + CONTACTS.phoneTel);
+      }catch{
+        // Fallback
+        const ta = document.createElement("textarea");
+        ta.value = CONTACTS.phoneTel;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+        toast("Номер скопирован");
+      }
+    });
+
+    // Quick form -> opens WA or TG with prefilled message
+    $("#quickForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.currentTarget);
+      const name = (fd.get("name") || "").toString().trim();
+      const contact = (fd.get("contact") || "").toString().trim();
+      const details = (fd.get("details") || "").toString().trim();
+
+      const text =
+        `Здравствуйте! Меня зовут ${name}. ` +
+        `Контакт для связи: ${contact}. ` +
+        (details ? `Хочу подобрать тур: ${details}.` : `Хочу подобрать тур, подскажите, какие варианты есть.`);
+
+      // Prefer WhatsApp; if not set, fallback to Telegram
+      const wa = CONTACTS.whatsapp;
+      const tg = CONTACTS.telegram;
+
+      const encoded = encodeURIComponent(text);
+
+      if(wa && wa.includes("wa.me")){
+        // wa.me expects ?text=
+        const url = wa + (wa.includes("?") ? "&" : "?") + "text=" + encoded;
+        window.open(url, "_blank", "noopener");
+        toast("Открываю WhatsApp…");
+        return;
+      }
+
+      if(tg){
+        // Telegram deep link to user/channel; message can't always be auto-filled.
+        // We'll just open TG and copy message.
+        navigator.clipboard?.writeText(text).catch(()=>{});
+        window.open(tg, "_blank", "noopener");
+        toast("Текст запроса скопирован. Вставьте в Telegram.");
+        return;
+      }
+
+      navigator.clipboard?.writeText(text).catch(()=>{});
+      toast("Текст запроса скопирован");
+    });
+  </script>
+</body>
+</html>
