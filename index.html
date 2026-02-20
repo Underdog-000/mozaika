@@ -2,377 +2,351 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#0b1220" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Мозайка Тревел — турагент</title>
-  <meta name="description" content="Мозайка Тревел — подбор туров и путешествий. Быстро, честно, с заботой." />
+  <meta name="description" content="Мозайка Тревел — подбор туров и путешествий. Быстро и удобно." />
+  <meta name="theme-color" content="#0b1220" />
 
   <style>
-    :root{
-      --bg: #0b1220;
-      --panel: rgba(255,255,255,.06);
-      --border: rgba(255,255,255,.12);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.70);
-      --muted2: rgba(255,255,255,.55);
-      --shadow: 0 14px 40px rgba(0,0,0,.35);
-      --r: 18px;
-      --max: 1040px;
+    /* ====== RESET / BASE ====== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: #0b1220;
+      background: #f5f7fb;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
 
-      --accent: #6ee7ff;
-      --accent2:#a78bfa;
+    /* ====== LAYOUT ====== */
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 16px;
     }
 
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(900px 450px at 10% -10%, rgba(110,231,255,.18), transparent 60%),
-        radial-gradient(900px 450px at 90% 10%, rgba(167,139,250,.14), transparent 60%),
-        linear-gradient(180deg, #070b16 0%, #0b1220 60%, #070b16 100%);
-      overflow-x:hidden;
+    /* ====== HEADER ====== */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #ffffff;
+      border-bottom: 1px solid #e6eaf2;
     }
-
-    a{ color: inherit; text-decoration:none; }
-    .wrap{ max-width:var(--max); margin:0 auto; padding: 0 16px; }
-    .card{
-      border: 1px solid var(--border);
-      background: var(--panel);
-      border-radius: var(--r);
-      box-shadow: var(--shadow);
-    }
-
-    /* Topbar */
-    .topbar{
-      position: sticky; top:0; z-index:50;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      background: rgba(11,18,32,.68);
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
-    .topbar__in{
-      display:flex; align-items:center; justify-content:space-between;
+    .topbar__in {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       gap: 12px;
       padding: 12px 0;
-      position: relative;
     }
 
-    .brand{
-      display:flex; align-items:center; gap:10px;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       min-width: 0;
     }
-    .logo{
-      width:40px; height:40px; border-radius: 14px;
-      background: linear-gradient(135deg, rgba(110,231,255,.95), rgba(167,139,250,.9));
-      box-shadow: 0 10px 24px rgba(0,0,0,.28);
+    .logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #6ee7ff, #a78bfa);
       flex: 0 0 auto;
-      position: relative;
-      overflow: hidden;
     }
-    .logo:before{
-      content:"";
-      position:absolute; inset:-30px;
-      background: conic-gradient(from 200deg, rgba(255,255,255,0) 0 10%, rgba(255,255,255,.22) 12% 18%, rgba(255,255,255,0) 20% 100%);
-      animation: shine 5s linear infinite;
-    }
-    @keyframes shine { to{ transform: rotate(360deg);} }
-
-    .brand__text{ min-width: 0; }
-    .brand__name{
-      font-weight: 850;
-      letter-spacing: .2px;
+    .brand__text { min-width: 0; }
+    .brand__name {
+      font-weight: 800;
       font-size: 15px;
-      line-height: 1.05;
+      line-height: 1.1;
       white-space: nowrap;
-      overflow:hidden;
+      overflow: hidden;
       text-overflow: ellipsis;
     }
-    .brand__tag{
+    .brand__tag {
       font-size: 12px;
-      color: var(--muted2);
+      color: #667085;
       white-space: nowrap;
-      overflow:hidden;
+      overflow: hidden;
       text-overflow: ellipsis;
       margin-top: 2px;
     }
 
-    .nav{
-      display:flex; align-items:center; gap: 8px;
-    }
-    .nav a{
-      font-size: 14px;
-      color: var(--muted);
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid transparent;
-      transition: .15s ease;
-    }
-    .nav a:hover{
-      color: var(--text);
-      border-color: rgba(255,255,255,.12);
-      background: rgba(255,255,255,.05);
-    }
-
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
+    .nav {
+      display: flex;
       gap: 10px;
-      padding: 11px 14px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
+      align-items: center;
+    }
+    .nav a {
+      font-size: 14px;
+      color: #344054;
+      padding: 8px 10px;
+      border-radius: 10px;
+    }
+    .nav a:hover { background: #f2f4f7; }
+
+    .burger {
+      display: none;
+      border: 1px solid #e6eaf2;
+      background: #fff;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 16px;
       cursor: pointer;
-      user-select: none;
-      transition: background .15s ease, border-color .15s ease, transform .08s ease;
-      white-space: nowrap;
-    }
-    .btn:hover{ background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.22); }
-    .btn:active{ transform: translateY(1px); }
-
-    .btn--primary{
-      border-color: rgba(110,231,255,.35);
-      background: linear-gradient(135deg, rgba(110,231,255,.18), rgba(167,139,250,.12));
-    }
-    .btn--primary:hover{
-      border-color: rgba(110,231,255,.55);
-      background: linear-gradient(135deg, rgba(110,231,255,.24), rgba(167,139,250,.16));
     }
 
-    .burger{ display:none; width:44px; height:44px; padding:0; }
+    /* ====== UI ====== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1px solid #d0d5dd;
+      background: #ffffff;
+      color: #111827;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .btn:hover { background: #f9fafb; }
+    .btn--primary {
+      border-color: #1d4ed8;
+      background: #1d4ed8;
+      color: #ffffff;
+    }
+    .btn--primary:hover { background: #1e40af; }
 
-    /* Hero */
-    .hero{ padding: 26px 0 12px; }
-    .hero__in{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
+    .card {
+      background: #ffffff;
+      border: 1px solid #e6eaf2;
+      border-radius: 16px;
+    }
+
+    /* ====== HERO ====== */
+    .hero { padding: 18px 0; }
+    .hero__grid {
+      display: grid;
+      grid-template-columns: 1fr;
       gap: 14px;
-      align-items: stretch;
     }
-    .hero__main{
-      padding: 20px;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero__main:before{
-      content:"";
-      position:absolute; inset:-2px;
-      background:
-        radial-gradient(520px 260px at 20% 20%, rgba(110,231,255,.16), transparent 60%),
-        radial-gradient(520px 260px at 80% 30%, rgba(167,139,250,.12), transparent 60%);
-      pointer-events:none;
-    }
-    .hero__main > *{ position:relative; }
-
-    .kicker{
-      display:inline-flex; align-items:center; gap:8px;
-      padding: 7px 10px;
+    .hero__main { padding: 18px; }
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #475467;
+      background: #f2f4f7;
+      border: 1px solid #eaecf0;
+      padding: 6px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      color: var(--muted);
-      font-size: 13px;
     }
-    .dot{
-      width:8px; height:8px; border-radius:999px;
-      background: var(--accent);
-      box-shadow: 0 0 0 4px rgba(110,231,255,.10);
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #1d4ed8;
     }
-
-    h1{
-      margin: 14px 0 10px;
-      font-size: clamp(26px, 4vw, 40px);
-      line-height: 1.06;
-      letter-spacing: -.5px;
+    h1 {
+      margin: 12px 0 10px;
+      font-size: 28px;
+      line-height: 1.1;
+      letter-spacing: -0.3px;
+      color: #0b1220;
     }
-    .lead{
-      margin:0;
-      color: var(--muted);
-      font-size: 15.5px;
+    .lead {
+      margin: 0;
+      color: #475467;
+      font-size: 15px;
       line-height: 1.55;
-      max-width: 64ch;
     }
-    .hero__actions{
-      display:flex; flex-wrap:wrap; gap:10px;
+    .hero__actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
       margin-top: 14px;
     }
 
-    .hero__side{
-      padding: 18px;
-      display:flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .side__title{
-      margin:0 0 8px;
+    .hero__side { padding: 18px; }
+    .side__title {
+      margin: 0 0 8px;
       font-size: 15px;
-      letter-spacing: -.1px;
       font-weight: 800;
+      color: #0b1220;
     }
-    .side__text{
-      margin:0;
-      color: var(--muted);
-      font-size: 13.5px;
+    .side__text {
+      margin: 0 0 12px;
+      font-size: 14px;
       line-height: 1.55;
+      color: #475467;
     }
-    .pill{
-      display:inline-flex; align-items:center; gap:8px;
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #344054;
+      border: 1px dashed #d0d5dd;
+      background: #f9fafb;
       padding: 7px 10px;
       border-radius: 999px;
-      border: 1px dashed rgba(255,255,255,.18);
-      background: rgba(255,255,255,.04);
-      color: rgba(255,255,255,.72);
-      font-size: 12px;
-      user-select:text;
       max-width: 100%;
     }
 
-    /* Sections */
-    section{ padding: 18px 0; }
-    .section__head{
-      display:flex; align-items:flex-end; justify-content:space-between;
-      gap: 10px;
+    /* ====== SECTIONS ====== */
+    section { padding: 14px 0; }
+    .section__head {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
       margin-bottom: 10px;
     }
-    .section__title{
-      margin:0;
+    .section__title {
+      margin: 0;
       font-size: 18px;
-      letter-spacing: -.2px;
-      font-weight: 850;
+      font-weight: 900;
+      letter-spacing: -0.2px;
+      color: #0b1220;
     }
-    .section__note{
-      margin:0;
-      color: var(--muted2);
+    .section__note {
+      margin: 0;
+      color: #667085;
       font-size: 13px;
+      line-height: 1.4;
     }
 
-    /* Search (Tourvisor) */
-    .search-card{ padding: 14px; }
-    .search-card__inner{
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.10);
-      padding: 12px;
+    /* ====== SEARCH ====== */
+    .search-card { padding: 14px; }
+    .search-inner {
+      border: 1px solid #e6eaf2;
+      border-radius: 14px;
+      padding: 10px;
+      background: #f9fafb;
       overflow: hidden;
     }
-    .search-hint{
-      display:flex; gap:10px; align-items:flex-start;
+    .hint {
       margin-top: 10px;
-      color: var(--muted2);
       font-size: 12px;
+      color: #667085;
       line-height: 1.45;
     }
 
-    /* Contacts */
-    .contacts-grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
+    /* ====== CONTACTS ====== */
+    .contacts-grid {
+      display: grid;
+      grid-template-columns: 1fr;
       gap: 14px;
-      align-items: stretch;
     }
-    .contact-card{ padding: 16px; }
-    .contact-title{
-      margin:0 0 10px;
-      font-weight: 850;
-      letter-spacing: -.1px;
+    .contact-card { padding: 16px; }
+    .contact-title {
+      margin: 0 0 10px;
+      font-weight: 900;
       font-size: 16px;
+      color: #0b1220;
     }
-    .contact-meta{
-      margin:0 0 12px;
-      color: var(--muted);
-      font-size: 13.5px;
+    .contact-meta {
+      margin: 0 0 12px;
+      color: #475467;
+      font-size: 14px;
       line-height: 1.55;
     }
-    .contact-row{
-      display:flex; flex-wrap:wrap; gap:10px;
+    .contact-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
     }
-    .mini{
+    .mini {
       margin: 10px 0 0;
       font-size: 12px;
-      color: var(--muted2);
+      color: #667085;
     }
-    .mini a{ text-decoration: underline; }
+    .mini a { text-decoration: underline; }
 
-    /* Footer */
-    footer{
-      padding: 18px 0 26px;
-      color: var(--muted2);
-      font-size: 13px;
+    /* Form */
+    form { display: grid; gap: 10px; }
+    label { display: grid; gap: 6px; }
+    .label { font-size: 12px; color: #667085; }
+    input {
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 1px solid #d0d5dd;
+      background: #ffffff;
+      outline: none;
+      font-size: 14px;
+      color: #111827;
+      min-width: 0;
     }
-    .footer__in{
-      display:flex; flex-wrap:wrap;
-      justify-content: space-between;
-      gap: 10px;
-      border-top: 1px solid rgba(255,255,255,.10);
+    input:focus { border-color: #1d4ed8; box-shadow: 0 0 0 3px rgba(29,78,216,.12); }
+
+    /* ====== FOOTER ====== */
+    footer { padding: 18px 0 26px; }
+    .footer__in {
+      border-top: 1px solid #e6eaf2;
       padding-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      color: #667085;
+      font-size: 12px;
     }
 
-    /* Toast */
-    .toast{
+    /* ====== TOAST ====== */
+    .toast {
       position: fixed;
       left: 50%;
-      bottom: 16px;
+      bottom: 14px;
       transform: translateX(-50%);
+      background: rgba(17,24,39,.92);
+      color: #fff;
       padding: 10px 12px;
-      border-radius: 14px;
-      background: rgba(0,0,0,.55);
-      border: 1px solid rgba(255,255,255,.14);
-      color: rgba(255,255,255,.90);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      box-shadow: 0 16px 50px rgba(0,0,0,.45);
-      opacity:0;
-      pointer-events:none;
-      transition: opacity .15s ease, transform .15s ease;
+      border-radius: 12px;
       font-size: 13px;
-      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .15s ease, transform .15s ease;
       max-width: calc(100vw - 24px);
       white-space: nowrap;
-      overflow:hidden;
+      overflow: hidden;
       text-overflow: ellipsis;
+      z-index: 99;
     }
-    .toast.show{
-      opacity:1;
-      transform: translateX(-50%) translateY(-2px);
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(-2px); }
+
+    /* ====== DESKTOP ENHANCEMENTS (simple) ====== */
+    @media (min-width: 860px){
+      .hero__grid { grid-template-columns: 1.2fr .8fr; }
+      .hero__actions { grid-template-columns: auto auto auto; justify-content: start; }
+      .contacts-grid { grid-template-columns: 1fr 1fr; }
+      .contact-row { grid-template-columns: 1fr 1fr 1fr; }
+      .footer__in { flex-direction: row; justify-content: space-between; align-items: center; }
     }
 
-    /* Mobile */
-    @media (max-width: 920px){
-      .hero__in{ grid-template-columns: 1fr; }
-      .contacts-grid{ grid-template-columns: 1fr; }
-      .nav{ display:none; }
-      .burger{ display:inline-flex; }
-      .nav.mobile{
-        display:flex;
-        position:absolute;
+    /* ====== MOBILE NAV ====== */
+    @media (max-width: 859px){
+      .nav { display: none; }
+      .burger { display: inline-flex; }
+      .nav.mobile {
+        display: grid;
+        position: absolute;
         right: 0;
-        top: 56px;
-        flex-direction: column;
+        top: 60px;
+        background: #fff;
+        border: 1px solid #e6eaf2;
+        border-radius: 14px;
+        padding: 8px;
         gap: 6px;
-        padding: 10px;
-        border-radius: 16px;
-        background: rgba(11,18,32,.92);
-        border: 1px solid rgba(255,255,255,.12);
-        box-shadow: var(--shadow);
-        min-width: 210px;
+        min-width: 220px;
+        box-shadow: 0 16px 40px rgba(16,24,40,.12);
       }
-    }
-    @media (max-width: 520px){
-      .wrap{ padding: 0 14px; }
-      .card{ box-shadow: 0 10px 28px rgba(0,0,0,.28); }
-      .contact-row{ flex-direction: column; }
-      .contact-row .btn{ width:100%; justify-content:center; }
-      .hero__actions .btn{ width: 100%; }
-      .section__head{ flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
 
 <body>
-  <div class="topbar">
+  <header class="topbar">
     <div class="wrap topbar__in">
       <a class="brand" href="#top" aria-label="На главную">
         <div class="logo" aria-hidden="true"></div>
@@ -388,55 +362,51 @@
         <a href="#about">Обо мне</a>
       </nav>
 
-      <button class="btn burger" id="burger" aria-label="Меню">☰</button>
+      <button class="burger" id="burger" type="button" aria-label="Открыть меню">Меню</button>
     </div>
-  </div>
+  </header>
 
   <main id="top" class="wrap">
-    <!-- HERO -->
-    <header class="hero">
-      <div class="hero__in">
+    <section class="hero">
+      <div class="hero__grid">
         <div class="card hero__main">
           <div class="kicker"><span class="dot" aria-hidden="true"></span> Индивидуальный подбор путешествий</div>
-
-          <h1>Туры “под ключ” — быстро, спокойно, без лишней суеты</h1>
+          <h1>Туры “под ключ” — быстро и удобно</h1>
           <p class="lead">
-            Подберу лучшие варианты по вашим датам и бюджету: море, экскурсии, горящие предложения, семейный отдых.
-            Сопровождение до вылета и на отдыхе.
+            Подберу варианты по датам и бюджету: море, экскурсии, семейный отдых, выгодные предложения.
+            Сопровождение до вылета и во время поездки.
           </p>
 
           <div class="hero__actions">
             <a class="btn btn--primary" href="#search">Подобрать тур</a>
-            <a class="btn" href="#contacts">Написать мне</a>
-            <button class="btn" id="copyPhoneBtn" type="button" title="Скопировать телефон">Скопировать номер</button>
+            <a class="btn" href="#contacts">Написать</a>
+            <button class="btn" id="copyPhoneBtn" type="button">Скопировать номер</button>
           </div>
         </div>
 
         <aside class="card hero__side" id="about">
-          <div>
-            <p class="side__title">Обо мне</p>
-            <p class="side__text">
-              Я турагент и помогаю подобрать поездку под ваш запрос: бюджет, даты, состав, предпочтения.
-              Подскажу, что реально выгодно, а где лучше не переплачивать.
-            </p>
-          </div>
+          <p class="side__title">Обо мне</p>
+          <p class="side__text">
+            Я турагент. Помогаю выбрать поездку под ваш запрос: бюджет, даты, состав, предпочтения.
+            Подскажу, где лучше по цене/качеству и на что обратить внимание.
+          </p>
 
-          <div class="pill" title="Подставьте реальные данные">
-            <span aria-hidden="true">📍</span> <span id="cityLabel">Город: (укажите)</span>
+          <div class="pill">
+            <span aria-hidden="true">📍</span>
+            <span id="cityLabel">Город: (укажите)</span>
           </div>
         </aside>
       </div>
-    </header>
+    </section>
 
-    <!-- SEARCH -->
     <section id="search">
       <div class="section__head">
         <h2 class="section__title">Поиск туров</h2>
-        <p class="section__note">Направления, даты, бюджет, фильтры</p>
+        <p class="section__note">Используйте модуль поиска — направление, даты, бюджет, фильтры</p>
       </div>
 
       <div class="card search-card">
-        <div class="search-card__inner">
+        <div class="search-inner">
           <!-- ВАЖНО: замените tv-moduleid-1000001 на ваш реальный moduleid (из Tourvisor) -->
           <div
             class="tv-search-form tv-moduleid-1000001"
@@ -450,17 +420,13 @@
           <script type="text/javascript" src="//tourvisor.ru/module/init.js"></script>
         </div>
 
-        <div class="search-hint">
-          <span aria-hidden="true">ℹ️</span>
-          <div>
-            Если модуль не отображается — проверьте, что <b>tv-moduleid</b> заменён на ваш реальный ID,
-            и что у аккаунта Tourvisor активен модуль.
-          </div>
+        <div class="hint">
+          Если модуль не отображается — проверьте, что <b>tv-moduleid</b> заменён на ваш реальный ID,
+          и что у аккаунта Tourvisor активен модуль.
         </div>
       </div>
     </section>
 
-    <!-- CONTACTS -->
     <section id="contacts">
       <div class="section__head">
         <h2 class="section__title">Контакты</h2>
@@ -471,7 +437,7 @@
         <div class="card contact-card">
           <p class="contact-title">Связаться</p>
           <p class="contact-meta">
-            Напишите: <b>страна</b>, <b>даты</b>, <b>сколько человек</b>, <b>бюджет</b> — пришлю варианты и объясню разницу.
+            Напишите: <b>страна</b>, <b>даты</b>, <b>сколько человек</b>, <b>бюджет</b> — подберу и сравню варианты.
           </p>
 
           <div class="contact-row">
@@ -488,33 +454,28 @@
         <div class="card contact-card">
           <p class="contact-title">Быстрый запрос</p>
           <p class="contact-meta" style="margin-bottom:10px;">
-            Заполните 3 поля — открою WhatsApp (или Telegram) с готовым сообщением.
+            Заполните поля — открою WhatsApp с готовым текстом (или Telegram, если WhatsApp не задан).
           </p>
 
-          <form id="quickForm" style="display:grid; gap:10px;">
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;" class="q2">
-              <label style="display:grid; gap:6px;">
-                <span style="font-size:12px; color:var(--muted2);">Имя</span>
-                <input name="name" required placeholder="Например, Анна"
-                  style="padding:12px 12px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--text);outline:none;min-width:0;" />
-              </label>
+          <form id="quickForm">
+            <label>
+              <span class="label">Имя</span>
+              <input name="name" required placeholder="Например, Анна" />
+            </label>
 
-              <label style="display:grid; gap:6px;">
-                <span style="font-size:12px; color:var(--muted2);">Контакт</span>
-                <input name="contact" required placeholder="Телефон / WhatsApp / Telegram"
-                  style="padding:12px 12px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--text);outline:none;min-width:0;" />
-              </label>
-            </div>
+            <label>
+              <span class="label">Контакт</span>
+              <input name="contact" required placeholder="Телефон / WhatsApp / Telegram" />
+            </label>
 
-            <label style="display:grid; gap:6px;">
-              <span style="font-size:12px; color:var(--muted2);">Что ищем</span>
-              <input name="details" placeholder="Направление, даты, бюджет, состав"
-                style="padding:12px 12px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--text);outline:none;min-width:0;" />
+            <label>
+              <span class="label">Что ищем</span>
+              <input name="details" placeholder="Направление, даты, бюджет, состав" />
             </label>
 
             <button class="btn btn--primary" type="submit" style="width:100%;">Сформировать сообщение</button>
 
-            <p style="margin:0; font-size:12px; color:var(--muted2); line-height:1.45;">
+            <p class="mini" style="margin:0;">
               Форма не отправляет данные на сервер (GitHub Pages). Она формирует текст и открывает мессенджер.
             </p>
           </form>
@@ -525,7 +486,7 @@
     <footer>
       <div class="footer__in">
         <div>© <span id="year"></span> «Мозайка Тревел»</div>
-        <div style="font-size:12px;">Сайт-визитка • GitHub Pages • one-file</div>
+        
       </div>
     </footer>
   </main>
@@ -533,7 +494,7 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
-    // ====== Настройки контактов (замени под реальную визитку) ======
+    // ====== Настройки (замени под реальную визитку) ======
     const CONTACTS = {
       phonePretty: "+7 (999) 000-00-00",
       phoneTel: "+79990000000",
@@ -570,14 +531,13 @@
     $("#tgBtn").href = CONTACTS.telegram;
     $("#mailBtn").href = "mailto:" + CONTACTS.email;
 
-    // burger menu
+    // burger
     const burger = $("#burger");
     const nav = $("#nav");
 
     burger.addEventListener("click", () => {
       const open = nav.classList.toggle("mobile");
-      if(open) nav.style.display = "flex";
-      else nav.style.display = "";
+      nav.style.display = open ? "grid" : "";
     });
 
     nav.addEventListener("click", (e) => {
@@ -615,7 +575,7 @@
       }
     });
 
-    // quick form
+    // quick form -> opens WA or TG
     $("#quickForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const fd = new FormData(e.currentTarget);
@@ -638,28 +598,15 @@
       }
 
       if(CONTACTS.telegram){
-        try{ await navigator.clipboard.writeText(text); }catch{}
+        try { await navigator.clipboard.writeText(text); } catch {}
         window.open(CONTACTS.telegram, "_blank", "noopener");
         toast("Текст скопирован — вставьте в Telegram");
         return;
       }
 
-      try{ await navigator.clipboard.writeText(text); }catch{}
+      try { await navigator.clipboard.writeText(text); } catch {}
       toast("Текст запроса скопирован");
     });
-
-    // mobile form: force 1 col under 520px (без сложных селекторов)
-    function fixFormColumns(){
-      const q2 = document.querySelector(".q2");
-      if(!q2) return;
-      if(window.matchMedia("(max-width: 520px)").matches){
-        q2.style.gridTemplateColumns = "1fr";
-      }else{
-        q2.style.gridTemplateColumns = "1fr 1fr";
-      }
-    }
-    fixFormColumns();
-    window.addEventListener("resize", fixFormColumns);
   </script>
 </body>
 </html>
