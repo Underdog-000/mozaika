@@ -9,21 +9,18 @@
 
   <style>
     :root{
-      --bg: #070b16;
-      --card: rgba(255,255,255,.06);
-      --card2: rgba(255,255,255,.08);
+      --bg: #0b1220;
+      --panel: rgba(255,255,255,.06);
+      --border: rgba(255,255,255,.12);
       --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.65);
-      --line: rgba(255,255,255,.14);
+      --muted: rgba(255,255,255,.70);
+      --muted2: rgba(255,255,255,.55);
       --shadow: 0 14px 40px rgba(0,0,0,.35);
       --r: 18px;
-      --r2: 26px;
-      --max: 1120px;
+      --max: 1040px;
 
-      --a: #6ee7ff;
-      --b: #a78bfa;
-      --c: #34d399;
-      --warn: #f59e0b;
+      --accent: #6ee7ff;
+      --accent2:#a78bfa;
     }
 
     *{ box-sizing:border-box; }
@@ -33,70 +30,77 @@
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
       color: var(--text);
       background:
-        radial-gradient(1200px 600px at 10% -10%, rgba(110,231,255,.22), transparent 55%),
-        radial-gradient(900px 600px at 90% 10%, rgba(167,139,250,.18), transparent 55%),
-        radial-gradient(900px 600px at 60% 110%, rgba(52,211,153,.14), transparent 55%),
-        linear-gradient(180deg, #060914 0%, #070b16 55%, #060914 100%);
+        radial-gradient(900px 450px at 10% -10%, rgba(110,231,255,.18), transparent 60%),
+        radial-gradient(900px 450px at 90% 10%, rgba(167,139,250,.14), transparent 60%),
+        linear-gradient(180deg, #070b16 0%, #0b1220 60%, #070b16 100%);
       overflow-x:hidden;
     }
 
     a{ color: inherit; text-decoration:none; }
-    .wrap{ max-width:var(--max); margin:0 auto; padding: 0 18px; }
-    .grid{ display:grid; gap:16px; }
+    .wrap{ max-width:var(--max); margin:0 auto; padding: 0 16px; }
+    .card{
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+    }
 
-    /* Top nav */
+    /* Topbar */
     .topbar{
-      position:sticky; top:0; z-index:50;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      background: linear-gradient(180deg, rgba(7,11,22,.72), rgba(7,11,22,.40));
+      position: sticky; top:0; z-index:50;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(11,18,32,.68);
       border-bottom: 1px solid rgba(255,255,255,.08);
     }
     .topbar__in{
       display:flex; align-items:center; justify-content:space-between;
+      gap: 12px;
       padding: 12px 0;
+      position: relative;
     }
 
     .brand{
-      display:flex; align-items:center; gap:12px;
+      display:flex; align-items:center; gap:10px;
       min-width: 0;
     }
     .logo{
-      width:44px; height:44px; border-radius: 14px;
-      background:
-        linear-gradient(135deg, rgba(110,231,255,.95), rgba(167,139,250,.95));
-      box-shadow: 0 10px 26px rgba(0,0,0,.28);
-      position:relative;
-      overflow:hidden;
+      width:40px; height:40px; border-radius: 14px;
+      background: linear-gradient(135deg, rgba(110,231,255,.95), rgba(167,139,250,.9));
+      box-shadow: 0 10px 24px rgba(0,0,0,.28);
       flex: 0 0 auto;
+      position: relative;
+      overflow: hidden;
     }
     .logo:before{
       content:"";
-      position:absolute; inset:-24px;
-      background:
-        conic-gradient(from 190deg,
-          rgba(255,255,255,.0) 0 8%,
-          rgba(255,255,255,.28) 10% 16%,
-          rgba(255,255,255,.0) 18% 100%);
-      animation: shine 4.8s linear infinite;
+      position:absolute; inset:-30px;
+      background: conic-gradient(from 200deg, rgba(255,255,255,0) 0 10%, rgba(255,255,255,.22) 12% 18%, rgba(255,255,255,0) 20% 100%);
+      animation: shine 5s linear infinite;
     }
-    @keyframes shine{ to{ transform: rotate(360deg);} }
+    @keyframes shine { to{ transform: rotate(360deg);} }
 
-    .brand__text{ min-width:0; }
+    .brand__text{ min-width: 0; }
     .brand__name{
-      font-weight: 800;
+      font-weight: 850;
       letter-spacing: .2px;
+      font-size: 15px;
       line-height: 1.05;
-      font-size: 16px;
-      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
     }
     .brand__tag{
-      font-size: 12px; color: var(--muted);
-      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+      font-size: 12px;
+      color: var(--muted2);
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
     }
 
     .nav{
-      display:flex; align-items:center; gap: 10px;
+      display:flex; align-items:center; gap: 8px;
     }
     .nav a{
       font-size: 14px;
@@ -104,77 +108,61 @@
       padding: 10px 12px;
       border-radius: 12px;
       border: 1px solid transparent;
-      transition: .18s ease;
+      transition: .15s ease;
     }
     .nav a:hover{
       color: var(--text);
       border-color: rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
+      background: rgba(255,255,255,.05);
     }
 
     .btn{
       display:inline-flex; align-items:center; justify-content:center;
-      gap:10px;
-      border-radius: 14px;
+      gap: 10px;
       padding: 11px 14px;
+      border-radius: 14px;
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.06);
       color: var(--text);
-      transition: transform .12s ease, background .18s ease, border-color .18s ease;
-      cursor:pointer;
-      user-select:none;
-      white-space:nowrap;
+      cursor: pointer;
+      user-select: none;
+      transition: background .15s ease, border-color .15s ease, transform .08s ease;
+      white-space: nowrap;
     }
     .btn:hover{ background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.22); }
     .btn:active{ transform: translateY(1px); }
 
     .btn--primary{
       border-color: rgba(110,231,255,.35);
-      background: linear-gradient(135deg, rgba(110,231,255,.18), rgba(167,139,250,.14));
+      background: linear-gradient(135deg, rgba(110,231,255,.18), rgba(167,139,250,.12));
     }
     .btn--primary:hover{
       border-color: rgba(110,231,255,.55);
-      background: linear-gradient(135deg, rgba(110,231,255,.24), rgba(167,139,250,.18));
+      background: linear-gradient(135deg, rgba(110,231,255,.24), rgba(167,139,250,.16));
     }
 
-    .burger{
-      display:none;
-      width:44px; height:44px;
-      border-radius: 14px;
-    }
+    .burger{ display:none; width:44px; height:44px; padding:0; }
 
     /* Hero */
-    .hero{
-      padding: 34px 0 18px;
-    }
+    .hero{ padding: 26px 0 12px; }
     .hero__in{
       display:grid;
-      grid-template-columns: 1.25fr .75fr;
-      gap: 18px;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
       align-items: stretch;
     }
-
-    .card{
-      border: 1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
-      border-radius: var(--r2);
-      box-shadow: var(--shadow);
-    }
-
     .hero__main{
-      padding: 22px;
-      position:relative;
-      overflow:hidden;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
     }
     .hero__main:before{
       content:"";
       position:absolute; inset:-2px;
       background:
-        radial-gradient(500px 260px at 12% 24%, rgba(110,231,255,.22), transparent 60%),
-        radial-gradient(520px 260px at 78% 20%, rgba(167,139,250,.18), transparent 60%),
-        radial-gradient(520px 260px at 68% 92%, rgba(52,211,153,.14), transparent 60%);
+        radial-gradient(520px 260px at 20% 20%, rgba(110,231,255,.16), transparent 60%),
+        radial-gradient(520px 260px at 80% 30%, rgba(167,139,250,.12), transparent 60%);
       pointer-events:none;
-      filter:saturate(1.05);
     }
     .hero__main > *{ position:relative; }
 
@@ -182,173 +170,163 @@
       display:inline-flex; align-items:center; gap:8px;
       padding: 7px 10px;
       border-radius: 999px;
-      background: rgba(255,255,255,.06);
       border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
       color: var(--muted);
       font-size: 13px;
     }
     .dot{
       width:8px; height:8px; border-radius:999px;
-      background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.2));
-      box-shadow: 0 0 0 4px rgba(110,231,255,.12);
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(110,231,255,.10);
     }
 
     h1{
       margin: 14px 0 10px;
-      font-size: clamp(28px, 4vw, 44px);
-      line-height: 1.04;
-      letter-spacing: -0.6px;
+      font-size: clamp(26px, 4vw, 40px);
+      line-height: 1.06;
+      letter-spacing: -.5px;
     }
     .lead{
-      margin:0 0 16px;
+      margin:0;
       color: var(--muted);
-      font-size: 16px;
-      line-height: 1.5;
-      max-width: 60ch;
+      font-size: 15.5px;
+      line-height: 1.55;
+      max-width: 64ch;
     }
-
     .hero__actions{
-      display:flex; flex-wrap:wrap;
-      gap:10px;
-      margin-top: 12px;
+      display:flex; flex-wrap:wrap; gap:10px;
+      margin-top: 14px;
     }
 
-    .hero__aside{
+    .hero__side{
       padding: 18px;
       display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      gap: 14px;
-    }
-
-    .aside__title{
-      font-weight: 750;
-      letter-spacing: .2px;
-      margin: 0 0 8px;
-      font-size: 16px;
-    }
-    .aside__list{
-      display:grid; gap:10px;
-      margin:0; padding:0;
-      list-style:none;
-    }
-    .aside__item{
-      display:flex; gap:10px; align-items:flex-start;
-      padding: 12px;
-      border-radius: var(--r);
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-    }
-    .badge{
-      width:34px; height:34px; border-radius: 12px;
-      display:grid; place-items:center;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.12);
-      flex: 0 0 auto;
-    }
-    .aside__item b{ display:block; font-size: 13px; }
-    .aside__item span{ display:block; font-size: 12px; color: var(--muted); margin-top: 2px; }
-
-    /* Sections */
-    section{ padding: 22px 0; }
-    .section__head{
-      display:flex; align-items:flex-end; justify-content:space-between;
+      flex-direction: column;
+      justify-content: space-between;
       gap: 12px;
-      margin-bottom: 12px;
     }
-    .section__title{
-      margin:0;
-      font-size: 18px;
-      letter-spacing: -.2px;
+    .side__title{
+      margin:0 0 8px;
+      font-size: 15px;
+      letter-spacing: -.1px;
+      font-weight: 800;
     }
-    .section__note{
+    .side__text{
       margin:0;
       color: var(--muted);
-      font-size: 13px;
-    }
-
-    /* Tourvisor */
-    .search-card{
-      padding: 16px;
-    }
-    .search-card__inner{
-      border-radius: var(--r2);
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.12);
-      padding: 12px;
-      overflow:hidden;
-    }
-    .search-hint{
-      display:flex; gap:10px; align-items:flex-start;
-      margin: 10px 0 0;
-      color: var(--muted);
-      font-size: 12px;
+      font-size: 13.5px;
+      line-height: 1.55;
     }
     .pill{
       display:inline-flex; align-items:center; gap:8px;
-      border-radius: 999px;
       padding: 7px 10px;
+      border-radius: 999px;
       border: 1px dashed rgba(255,255,255,.18);
       background: rgba(255,255,255,.04);
       color: rgba(255,255,255,.72);
       font-size: 12px;
       user-select:text;
+      max-width: 100%;
+    }
+
+    /* Sections */
+    section{ padding: 18px 0; }
+    .section__head{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .section__title{
+      margin:0;
+      font-size: 18px;
+      letter-spacing: -.2px;
+      font-weight: 850;
+    }
+    .section__note{
+      margin:0;
+      color: var(--muted2);
+      font-size: 13px;
+    }
+
+    /* Search (Tourvisor) */
+    .search-card{ padding: 14px; }
+    .search-card__inner{
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.10);
+      padding: 12px;
+      overflow: hidden;
+    }
+    .search-hint{
+      display:flex; gap:10px; align-items:flex-start;
+      margin-top: 10px;
+      color: var(--muted2);
+      font-size: 12px;
+      line-height: 1.45;
     }
 
     /* Contacts */
-    .contacts{
+    .contacts-grid{
+      display:grid;
       grid-template-columns: 1fr 1fr;
-      align-items:stretch;
+      gap: 14px;
+      align-items: stretch;
     }
-    .contact-card{
-      padding: 16px;
-      display:flex; flex-direction:column; gap: 12px;
+    .contact-card{ padding: 16px; }
+    .contact-title{
+      margin:0 0 10px;
+      font-weight: 850;
+      letter-spacing: -.1px;
+      font-size: 16px;
+    }
+    .contact-meta{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.55;
     }
     .contact-row{
       display:flex; flex-wrap:wrap; gap:10px;
     }
-    .contact-meta{
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
-      margin:0;
-    }
     .mini{
-      font-size:12px; color: var(--muted);
-      margin:0;
+      margin: 10px 0 0;
+      font-size: 12px;
+      color: var(--muted2);
     }
+    .mini a{ text-decoration: underline; }
 
     /* Footer */
     footer{
-      padding: 22px 0 28px;
-      color: var(--muted);
+      padding: 18px 0 26px;
+      color: var(--muted2);
       font-size: 13px;
     }
     .footer__in{
       display:flex; flex-wrap:wrap;
-      align-items:center; justify-content:space-between;
+      justify-content: space-between;
       gap: 10px;
       border-top: 1px solid rgba(255,255,255,.10);
-      padding-top: 18px;
+      padding-top: 14px;
     }
 
     /* Toast */
     .toast{
       position: fixed;
       left: 50%;
-      bottom: 18px;
+      bottom: 16px;
       transform: translateX(-50%);
       padding: 10px 12px;
       border-radius: 14px;
       background: rgba(0,0,0,.55);
       border: 1px solid rgba(255,255,255,.14);
-      color: rgba(255,255,255,.88);
+      color: rgba(255,255,255,.90);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       box-shadow: 0 16px 50px rgba(0,0,0,.45);
       opacity:0;
       pointer-events:none;
-      transition: opacity .18s ease, transform .18s ease;
+      transition: opacity .15s ease, transform .15s ease;
       font-size: 13px;
       z-index: 100;
       max-width: calc(100vw - 24px);
@@ -360,62 +338,36 @@
       opacity:1;
       transform: translateX(-50%) translateY(-2px);
     }
-    .quick-2col{
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-@media (max-width: 520px){
-  .quick-2col{ grid-template-columns: 1fr; }
-}
 
     /* Mobile */
-    /* ===== Mobile fixes (stability) ===== */
-@media (max-width: 520px){
-  /* Убираем любые горизонтальные вылезания */
-  html, body { overflow-x: hidden; }
-  .wrap { padding: 0 14px; }
-
-  /* Карточки: меньше радиус/тени, чтобы не казалось что "слои" */
-  .card{
-    border-radius: 18px;
-    box-shadow: 0 10px 28px rgba(0,0,0,.28);
-  }
-
-  /* Контакты: гарантированно 1 колонка */
-  .contacts{ grid-template-columns: 1fr; }
-
-  /* Кнопки и ряды: не пытаемся уместить в одну строку */
-  .contact-row{
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .contact-row .btn{
-    width: 100%;
-    justify-content: center;
-  }
-
-  /* Форма: всегда 1 колонка (убираем 1fr 1fr) */
-  #quickForm .grid[style*="grid-template-columns"]{
-    grid-template-columns: 1fr !important;
-  }
-
-  /* Поля ввода: ровная ширина */
-  #quickForm input{
-    width: 100%;
-    min-width: 0;
-  }
-
-  /* Кнопка отправки: 100% */
-  #quickForm button{
-    width: 100%;
-  }
-
-  /* Небольшая правка шапки секции, чтобы заголовок не "уезжал" */
-  .section__head{
-    align-items: flex-start;
-    flex-direction: column;
-  }
-}
+    @media (max-width: 920px){
+      .hero__in{ grid-template-columns: 1fr; }
+      .contacts-grid{ grid-template-columns: 1fr; }
+      .nav{ display:none; }
+      .burger{ display:inline-flex; }
+      .nav.mobile{
+        display:flex;
+        position:absolute;
+        right: 0;
+        top: 56px;
+        flex-direction: column;
+        gap: 6px;
+        padding: 10px;
+        border-radius: 16px;
+        background: rgba(11,18,32,.92);
+        border: 1px solid rgba(255,255,255,.12);
+        box-shadow: var(--shadow);
+        min-width: 210px;
+      }
+    }
+    @media (max-width: 520px){
+      .wrap{ padding: 0 14px; }
+      .card{ box-shadow: 0 10px 28px rgba(0,0,0,.28); }
+      .contact-row{ flex-direction: column; }
+      .contact-row .btn{ width:100%; justify-content:center; }
+      .hero__actions .btn{ width: 100%; }
+      .section__head{ flex-direction: column; align-items: flex-start; }
+    }
   </style>
 </head>
 
@@ -436,13 +388,7 @@
         <a href="#about">Обо мне</a>
       </nav>
 
-      <button class="btn burger" id="burger" aria-label="Меню">
-        <span class="ico" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </span>
-      </button>
+      <button class="btn burger" id="burger" aria-label="Меню">☰</button>
     </div>
   </div>
 
@@ -451,75 +397,28 @@
     <header class="hero">
       <div class="hero__in">
         <div class="card hero__main">
-          <div class="kicker">
-            <span class="dot" aria-hidden="true"></span>
-            Индивидуальный подбор путешествий
-          </div>
+          <div class="kicker"><span class="dot" aria-hidden="true"></span> Индивидуальный подбор путешествий</div>
 
           <h1>Туры “под ключ” — быстро, спокойно, без лишней суеты</h1>
           <p class="lead">
-            Подберу лучшие варианты по вашим датам и бюджету: море, экскурсии, горящие предложения,
-            семейный отдых, свадебные путешествия. Сопровождение до вылета и на отдыхе.
+            Подберу лучшие варианты по вашим датам и бюджету: море, экскурсии, горящие предложения, семейный отдых.
+            Сопровождение до вылета и на отдыхе.
           </p>
 
           <div class="hero__actions">
-            <a class="btn btn--primary" href="#search">
-              <span class="ico" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M10.5 4.5h9M15 4.5v9M4 19.5l10.5-10.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-              </span>
-              Подобрать тур
-            </a>
-
-            <a class="btn" href="#contacts">
-              <span class="ico" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M21 15.5a4 4 0 0 1-4 4h-1.2a2 2 0 0 1-1.7-.95l-.55-.9a2 2 0 0 0-1.7-.95H7a4 4 0 0 1-4-4V8.5a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v7Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                  <path d="M7.5 9.5h9M7.5 12.5h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-              </span>
-              Написать мне
-            </a>
-
-            <button class="btn" id="copyPhoneBtn" type="button" title="Скопировать телефон">
-              <span class="ico" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M8 7a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2V7Z" stroke="currentColor" stroke-width="2"/>
-                  <path d="M6 17H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-              </span>
-              Скопировать номер
-            </button>
+            <a class="btn btn--primary" href="#search">Подобрать тур</a>
+            <a class="btn" href="#contacts">Написать мне</a>
+            <button class="btn" id="copyPhoneBtn" type="button" title="Скопировать телефон">Скопировать номер</button>
           </div>
         </div>
 
-        <aside class="card hero__aside" id="about">
+        <aside class="card hero__side" id="about">
           <div>
-            <p class="aside__title">Что вы получаете</p>
-            <ul class="aside__list">
-              <li class="aside__item">
-                <span class="badge" aria-hidden="true">✦</span>
-                <div>
-                  <b>Подбор в 2–3 вариантах</b>
-                  <span>Сравнение по цене/качеству, честные комментарии.</span>
-                </div>
-              </li>
-              <li class="aside__item">
-                <span class="badge" aria-hidden="true">✓</span>
-                <div>
-                  <b>Проверка деталей</b>
-                  <span>Перелёты, питание, страховка, условия отеля, нюансы.</span>
-                </div>
-              </li>
-              <li class="aside__item">
-                <span class="badge" aria-hidden="true">☼</span>
-                <div>
-                  <b>Сопровождение</b>
-                  <span>На связи до вылета и во время поездки.</span>
-                </div>
-              </li>
-            </ul>
+            <p class="side__title">Обо мне</p>
+            <p class="side__text">
+              Я турагент и помогаю подобрать поездку под ваш запрос: бюджет, даты, состав, предпочтения.
+              Подскажу, что реально выгодно, а где лучше не переплачивать.
+            </p>
           </div>
 
           <div class="pill" title="Подставьте реальные данные">
@@ -533,19 +432,12 @@
     <section id="search">
       <div class="section__head">
         <h2 class="section__title">Поиск туров</h2>
-        <p class="section__note">Ищите по направлениям, датам, бюджету и фильтрам</p>
+        <p class="section__note">Направления, даты, бюджет, фильтры</p>
       </div>
 
       <div class="card search-card">
         <div class="search-card__inner">
-          <!--
-            ✅ Tourvisor module embed.
-            1) Замените MODULE_ID ниже на ваш реальный (из личного кабинета Tourvisor).
-            2) Параметры tv-type / tv-theme / tv-ismobile — опционально.
-            Документация по параметрам: support.tourvisor.ru (см. "Параметры для разработчиков").
-          -->
-
-          <!-- ВАЖНО: замените 1000001 на ваш moduleid -->
+          <!-- ВАЖНО: замените tv-moduleid-1000001 на ваш реальный moduleid (из Tourvisor) -->
           <div
             class="tv-search-form tv-moduleid-1000001"
             tv-ismobile="2"
@@ -572,45 +464,68 @@
     <section id="contacts">
       <div class="section__head">
         <h2 class="section__title">Контакты</h2>
-        <p class="section__note">Ответ обычно в течение дня (иногда быстрее)</p>
+        <p class="section__note">Ответ обычно в течение дня</p>
       </div>
 
-      <div class="grid contacts">
+      <div class="contacts-grid">
         <div class="card contact-card">
-          <p class="aside__title" style="margin:0;">Связаться</p>
+          <p class="contact-title">Связаться</p>
           <p class="contact-meta">
-            Напишите, что именно нужно: <b>страна</b>, <b>даты</b>, <b>кол-во людей</b>, <b>бюджет</b> —
-            я предложу варианты и объясню разницу.
+            Напишите: <b>страна</b>, <b>даты</b>, <b>сколько человек</b>, <b>бюджет</b> — пришлю варианты и объясню разницу.
           </p>
 
           <div class="contact-row">
-            <!-- Замените ссылки на реальные -->
-            <a class="btn btn--primary" id="waBtn" href="https://wa.me/79990000000" target="_blank" rel="noopener">
-              <span aria-hidden="true">💬</span> WhatsApp
-            </a>
-            <a class="btn" id="tgBtn" href="https://t.me/username" target="_blank" rel="noopener">
-              <span aria-hidden="true">✈️</span> Telegram
-            </a>
-            <a class="btn" id="mailBtn" href="mailto:hello@example.com">
-              <span aria-hidden="true">✉️</span> Email
-            </a>
+            <a class="btn btn--primary" id="waBtn" href="https://wa.me/79990000000" target="_blank" rel="noopener">WhatsApp</a>
+            <a class="btn" id="tgBtn" href="https://t.me/username" target="_blank" rel="noopener">Telegram</a>
+            <a class="btn" id="mailBtn" href="mailto:hello@example.com">Email</a>
           </div>
 
           <p class="mini">
-            Телефон: <b id="phoneText">+7 (999) 000-00-00</b>
-            <span style="color:var(--muted)">•</span>
-            <a href="tel:+79990000000" class="mini" style="text-decoration:underline;">позвонить</a>
+            Телефон: <b id="phoneText">+7 (999) 000-00-00</b> • <a id="telLink" href="tel:+79990000000">позвонить</a>
           </p>
         </div>
 
-        
+        <div class="card contact-card">
+          <p class="contact-title">Быстрый запрос</p>
+          <p class="contact-meta" style="margin-bottom:10px;">
+            Заполните 3 поля — открою WhatsApp (или Telegram) с готовым сообщением.
+          </p>
+
+          <form id="quickForm" style="display:grid; gap:10px;">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;" class="q2">
+              <label style="display:grid; gap:6px;">
+                <span style="font-size:12px; color:var(--muted2);">Имя</span>
+                <input name="name" required placeholder="Например, Анна"
+                  style="padding:12px 12px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--text);outline:none;min-width:0;" />
+              </label>
+
+              <label style="display:grid; gap:6px;">
+                <span style="font-size:12px; color:var(--muted2);">Контакт</span>
+                <input name="contact" required placeholder="Телефон / WhatsApp / Telegram"
+                  style="padding:12px 12px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--text);outline:none;min-width:0;" />
+              </label>
+            </div>
+
+            <label style="display:grid; gap:6px;">
+              <span style="font-size:12px; color:var(--muted2);">Что ищем</span>
+              <input name="details" placeholder="Направление, даты, бюджет, состав"
+                style="padding:12px 12px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--text);outline:none;min-width:0;" />
+            </label>
+
+            <button class="btn btn--primary" type="submit" style="width:100%;">Сформировать сообщение</button>
+
+            <p style="margin:0; font-size:12px; color:var(--muted2); line-height:1.45;">
+              Форма не отправляет данные на сервер (GitHub Pages). Она формирует текст и открывает мессенджер.
+            </p>
+          </form>
+        </div>
       </div>
     </section>
 
     <footer>
       <div class="footer__in">
         <div>© <span id="year"></span> «Мозайка Тревел»</div>
-        <div class="mini">Сайт-визитка • GitHub Pages • one-file</div>
+        <div style="font-size:12px;">Сайт-визитка • GitHub Pages • one-file</div>
       </div>
     </footer>
   </main>
@@ -618,7 +533,7 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
-    // ====== Settings (замените под реальную визитку) ======
+    // ====== Настройки контактов (замени под реальную визитку) ======
     const CONTACTS = {
       phonePretty: "+7 (999) 000-00-00",
       phoneTel: "+79990000000",
@@ -628,7 +543,6 @@
       city: "Амстердам"
     };
 
-    // ====== Helpers ======
     const $ = (sel, root=document) => root.querySelector(sel);
     const toastEl = $("#toast");
     let toastTimer = null;
@@ -646,33 +560,26 @@
       el.scrollIntoView({behavior:"smooth", block:"start"});
     }
 
-    // ====== Init ======
+    // init
     $("#year").textContent = new Date().getFullYear();
-
     $("#phoneText").textContent = CONTACTS.phonePretty;
+    $("#telLink").href = "tel:" + CONTACTS.phoneTel;
     $("#cityLabel").textContent = "Город: " + CONTACTS.city;
 
     $("#waBtn").href = CONTACTS.whatsapp;
     $("#tgBtn").href = CONTACTS.telegram;
     $("#mailBtn").href = "mailto:" + CONTACTS.email;
 
-    const telLink = document.querySelector('a[href^="tel:"]');
-    if(telLink) telLink.href = "tel:" + CONTACTS.phoneTel;
-
-    // ====== Menu ======
+    // burger menu
     const burger = $("#burger");
     const nav = $("#nav");
 
     burger.addEventListener("click", () => {
-      const isMobileOpen = nav.classList.toggle("mobile");
-      if(isMobileOpen){
-        nav.style.display = "flex";
-      }else{
-        nav.style.display = "";
-      }
+      const open = nav.classList.toggle("mobile");
+      if(open) nav.style.display = "flex";
+      else nav.style.display = "";
     });
 
-    // Close mobile nav on link click
     nav.addEventListener("click", (e) => {
       const a = e.target.closest("a");
       if(!a) return;
@@ -683,7 +590,6 @@
       nav.style.display = "";
     });
 
-    // Smooth scroll for any anchor
     document.addEventListener("click", (e) => {
       const a = e.target.closest('a[href^="#"]');
       if(!a) return;
@@ -693,13 +599,12 @@
       smoothTo(href);
     });
 
-    // Copy phone
+    // copy phone
     $("#copyPhoneBtn").addEventListener("click", async () => {
       try{
         await navigator.clipboard.writeText(CONTACTS.phoneTel);
         toast("Номер скопирован: " + CONTACTS.phoneTel);
       }catch{
-        // Fallback
         const ta = document.createElement("textarea");
         ta.value = CONTACTS.phoneTel;
         document.body.appendChild(ta);
@@ -710,8 +615,8 @@
       }
     });
 
-    // Quick form -> opens WA or TG with prefilled message
-    $("#quickForm").addEventListener("submit", (e) => {
+    // quick form
+    $("#quickForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const fd = new FormData(e.currentTarget);
       const name = (fd.get("name") || "").toString().trim();
@@ -721,34 +626,40 @@
       const text =
         `Здравствуйте! Меня зовут ${name}. ` +
         `Контакт для связи: ${contact}. ` +
-        (details ? `Хочу подобрать тур: ${details}.` : `Хочу подобрать тур, подскажите, какие варианты есть.`);
-
-      // Prefer WhatsApp; if not set, fallback to Telegram
-      const wa = CONTACTS.whatsapp;
-      const tg = CONTACTS.telegram;
+        (details ? `Хочу подобрать тур: ${details}.` : `Хочу подобрать тур, подскажите варианты.`);
 
       const encoded = encodeURIComponent(text);
 
-      if(wa && wa.includes("wa.me")){
-        // wa.me expects ?text=
-        const url = wa + (wa.includes("?") ? "&" : "?") + "text=" + encoded;
+      if(CONTACTS.whatsapp && CONTACTS.whatsapp.includes("wa.me")){
+        const url = CONTACTS.whatsapp + (CONTACTS.whatsapp.includes("?") ? "&" : "?") + "text=" + encoded;
         window.open(url, "_blank", "noopener");
         toast("Открываю WhatsApp…");
         return;
       }
 
-      if(tg){
-        // Telegram deep link to user/channel; message can't always be auto-filled.
-        // We'll just open TG and copy message.
-        navigator.clipboard?.writeText(text).catch(()=>{});
-        window.open(tg, "_blank", "noopener");
-        toast("Текст запроса скопирован. Вставьте в Telegram.");
+      if(CONTACTS.telegram){
+        try{ await navigator.clipboard.writeText(text); }catch{}
+        window.open(CONTACTS.telegram, "_blank", "noopener");
+        toast("Текст скопирован — вставьте в Telegram");
         return;
       }
 
-      navigator.clipboard?.writeText(text).catch(()=>{});
+      try{ await navigator.clipboard.writeText(text); }catch{}
       toast("Текст запроса скопирован");
     });
+
+    // mobile form: force 1 col under 520px (без сложных селекторов)
+    function fixFormColumns(){
+      const q2 = document.querySelector(".q2");
+      if(!q2) return;
+      if(window.matchMedia("(max-width: 520px)").matches){
+        q2.style.gridTemplateColumns = "1fr";
+      }else{
+        q2.style.gridTemplateColumns = "1fr 1fr";
+      }
+    }
+    fixFormColumns();
+    window.addEventListener("resize", fixFormColumns);
   </script>
 </body>
 </html>
